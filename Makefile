@@ -1,4 +1,4 @@
-LD=arm-none-eabi-ld -g -T linker.ld
+LD=arm-none-eabi-gcc -g -T linker.ld
 CC=arm-none-eabi-gcc -g -mcpu=cortex-m3 -mthumb -mfix-cortex-m3-ldrd
 OBJCOPY=arm-none-eabi-objcopy
 
@@ -21,7 +21,7 @@ reset.o:reset.S
 	$(CC) -c reset.S
 
 bin:
-	$(OBJCOPY) -O binary main.elf main.bin
+	$(OBJCOPY) -O binary main main.bin
 
 startup.o:startup.S
 	$(CC) -c startup.S -o startup.o

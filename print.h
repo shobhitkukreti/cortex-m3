@@ -11,7 +11,7 @@ enum {
 int put(char *ptr, int len) {
   int todo;
   for (todo = 0; todo < len; todo++) {
-    UART_DR(UART0_ADDR) = *ptr++;
+    UART_DR(UART0_ADDR) = 'H';
   }
   return len;
 }
