@@ -80,6 +80,6 @@ B	.
 .thumb_func
 .weak SYSTick_Handler
 SysTick_Handler:
-B	. 
+movs pc, lr 
 
 .end
