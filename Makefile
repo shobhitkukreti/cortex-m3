@@ -6,29 +6,27 @@ CCFLAG=-mthumb -march=armv7 -mfix-cortex-m3-ldrd -T lm3s6965.ld
 IFLAGS=-I../CMSIS/Include/
 BCFLAG = $(LD)
 
-all: test
-
-output:main.o syscalls.o reset.o
-	$(CC) $(CCFLAG) main.o syscalls.o reset.o -o main
+all: bin
 
 main.o:main.c
 	$(CC) -c main.c -o main.o
 
-syscalls.o:syscalls.c
-	$(CC) -c syscalls.c
+sys.o:sys.c exception.c
+	$(CC) -c sys.c exception.c
 
-reset.o:reset.S
-	$(CC) -c reset.S
-
-bin:
+bin: test
 	$(OBJCOPY) -O binary main main.bin
 
+kernel.o:kernel.c
+
+wrapper.o:wrapper.S
+	$(CC) -c wrapper.S
+
 startup.o:startup.S
-	$(CC) -c startup.S -o startup.o
+	$(CC) -c startup.S
 
-test:startup.o main.o
-	$(LD) startup.o main.o -o main
-
+test:startup.o main.o sys.o kernel.o wrapper.o
+	$(LD) startup.o kernel.o exception.o wrapper.o sys.o main.o -o main
 
 clean: 
 	rm -rf *o main *bin

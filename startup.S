@@ -80,6 +80,11 @@ B	.
 .thumb_func
 .weak SYSTick_Handler
 SysTick_Handler:
-movs pc, lr 
-
+SUB SP,SP,#4
+STR LR,[SP]
+mov R12,SP
+BL SYSTICK 
+LDR LR,[SP]
+ADD SP,SP,#4;
+movs PC,LR
 .end

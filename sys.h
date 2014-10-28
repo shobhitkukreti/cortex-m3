@@ -1,3 +1,6 @@
+#ifndef SYS_H_
+#define SYS_H_
+
 enum {
   UART_FR_RXFE = 0x10,
   UART_FR_TXFF = 0x20,
@@ -8,11 +11,7 @@ enum {
 #define UART_FR(baseaddr) (*(((unsigned int *)(baseaddr))+6))
 
 
-int put(char *ptr, int len) {
-  int todo;
-  for (todo = 0; todo < len; todo++) {
-    UART_DR(UART0_ADDR) = *ptr++;
-  }
-  return len;
-}
-
+int put(char *ptr, int len);
+int get(char *ptr, int len);
+void ms_delay(unsigned int msec);
+#endif
