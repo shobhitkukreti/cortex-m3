@@ -9,5 +9,13 @@
 #define EN32_63 (*((volatile unsigned int *)0xE000E104))
 #define DIS0_31 (*((volatile unsigned int *)0XE000E180))
 #define DIS32_63 (*((volatile unsigned int *)0XE000184))
+#define SYSPRI2 (*((volatile unsigned int *)0XE000ED1C))
+#define SVC_PRIO(prio) ((SYSPRI2 | (prio << 28)))
+#define SYSPRI3 (*((volatile unsigned int *)0xE000ED20))
+#define TICK_PRIO(prio) (SYSPRI3 | (prio<<28))
+#define SYSHNDCTRL (*((volatile unsigned int *)0xE000ED24))
+#define SVC_PEND() ((SYSHNDCTRL & 0x8000)?1:0)
+#define TICK_PEND() ((SYSHNDCTRL & 0x800)?1:0)
+
 
 #endif
