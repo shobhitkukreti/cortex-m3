@@ -14,4 +14,5 @@ enum {
 int put(char *ptr, int len);
 int get(char *ptr, int len);
 void ms_delay(unsigned int msec);
+void setup_timer();
 #endif
