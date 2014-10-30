@@ -6,17 +6,17 @@
  .word  NMI_Handler+1                 /* NMI Handler                  */
  .word  HardFault_Handler+1           /* Hard Fault Handler           */
  .word  MemManage_Handler+1           /* MPU Fault Handler            */
- .word  BusFault_Handler            /* Bus Fault Handler            */
- .word  UsageFault_Handler          /* Usage Fault Handler          */
+ .word  BusFault_Handler+1            /* Bus Fault Handler            */
+ .word  UsageFault_Handler+1          /* Usage Fault Handler          */
  .word  0                           /* Reserved                     */
  .word  0                           /* Reserved                     */
  .word  0                           /* Reserved                     */
  .word  0                           /* Reserved                     */
- .word  SVC_Handler                 /* SVCall Handler               */
- .word  DebugMon_Handler            /* Debug Monitor Handler        */
+ .word  SVC_Handler+1                 /* SVCall Handler               */
+ .word  DebugMon_Handler+1            /* Debug Monitor Handler        */
  .word  0                           /* Reserved                     */
- .word  PendSV_Handler              /* PendSV Handler               */
- .word  SysTick_Handler             /* SysTick Handler              */
+ .word  PendSV_Handler+1              /* PendSV Handler               */
+ .word  SysTick_Handler+1             /* SysTick Handler              */
 
 
 .section .text
@@ -64,7 +64,11 @@ B	.
 .thumb_func:
 .weak SVC_Handler
 SVC_Handler:
-B	.
+stmfd sp!,{lr}
+BL SVC_WRITE
+ldmfd sp!,{lr}
+MOV PC,LR
+
 
 .thumb_func
 .weak DebugMon_Handler
@@ -80,11 +84,8 @@ B	.
 .thumb_func
 .weak SYSTick_Handler
 SysTick_Handler:
-SUB SP,SP,#4
-STR LR,[SP]
-mov R12,SP
+STMFD sp!,{lr}
 BL SYSTICK 
-LDR LR,[SP]
-ADD SP,SP,#4;
-movs PC,LR
+LDMFD sp!,{lr}
+mov PC,LR
 .end

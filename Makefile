@@ -18,9 +18,10 @@ bin: test
 	$(OBJCOPY) -O binary main main.bin
 
 kernel.o:kernel.c
+	$(CC) -c kernel.c
 
 wrapper.o:wrapper.S
-	$(CC) -c wrapper.S
+	$(CC) -c -g wrapper.S
 
 startup.o:startup.S
 	$(CC) -c startup.S
