@@ -9,7 +9,8 @@
 .global write
 .thumb_func
 write:
-	stmfd sp!,{r1-r3,lr} @ Caller Saved Registers
+	stmfd sp!,{lr} @ Caller Saved Registers
 	svc #WRITE_SWI
-	ldmfd sp!,{r1-r3,lr}
+	ldmfd sp!,{lr}
+	ldr r0, =0xDEADBEEF
 	mov pc,lr

@@ -64,9 +64,16 @@ B	.
 .thumb_func:
 .weak SVC_Handler
 SVC_Handler:
-stmfd sp!,{lr}
+//stm sp!,{lr} @ The LR will have value of 0XFFFFFFF. This is exc_return value. Save it before branching to SVC_WRITE
+mov r0,sp
+push {lr}
+CPSID i
+ldr r1,[sp,#28]
+ldrb r1,[r1,#-2]
 BL SVC_WRITE
-ldmfd sp!,{lr}
+//ldm sp!,{lr}
+pop {lr}
+CPSIE i
 MOV PC,LR
 
 
@@ -84,7 +91,7 @@ B	.
 .thumb_func
 .weak SYSTick_Handler
 SysTick_Handler:
-STMFD sp!,{lr}
+STMFD sp!,{lr} @ Save EXC_Return Value before branching to return from exception
 BL SYSTICK 
 LDMFD sp!,{lr}
 mov PC,LR

@@ -10,8 +10,11 @@ k_up_time++;
 
 int SVC_WRITE(char *ptr, int len)
 {
-
-int ret = put(ptr,len);
+int ret=0;
+if(len==3)
+	put("3\n",3);
+else
+	ret = put(ptr,len);
 return ret;
 }
 
