@@ -22,30 +22,63 @@ int int2ascii(int num, char str[])
 }
 
 
+int stringlen(char *ptr)
+{
+char *tmp = ptr;
+int len=0;
+while(*ptr!='\0') {
+	ptr++; len++;
+}
+return len;
+}
+
+
+
 void putch(char ch)
 {
 UART_DR(UART0_ADDR)=ch;
 }
 
 int put(char *ptr, int len) {
-  int todo;
-  for (todo = 0; todo < len; todo++) {
-    UART_DR(UART0_ADDR) = *ptr++;
-  }
-  return len;
+  int ret;
+
+while(*ptr!='\0') {
+    UART_DR(UART0_ADDR) = *ptr;
+	ptr++;
+	ret++; 
+ } 
+
+  return ret;
 }
 
 
-int get(char *ptr, int len) {
-  int ret;
-  if(len == 0)
-    return 0;
-  while(UART_FR(UART0_ADDR) & UART_FR_RXFE);
-  *ptr++ = UART_DR(UART0_ADDR);
-  for(ret = 1; ret < len; ret++) {
-    if(UART_FR(UART0_ADDR) & UART_FR_RXFE) { break; }
-    *ptr++ = UART_DR(UART0_ADDR);
-  }
+void getch(char ch)
+{
+ch = UART_DR(UART0_ADDR);
+}
+
+int get(char *read, int len) {
+	int ret;
+	char *ptr = read;
+	if(len == 0)
+		return 0;
+	while(1)
+	{
+		if(UART_FR(UART0_ADDR) & UART_FR_RXFF) {
+			*read = UART_DR(UART0_ADDR);
+			ret++;
+			putch(*read);
+			if(*read=='\r') {
+				read++;
+				ret++;
+				*read='\n';
+				putch('\n');
+				break;
+			}
+			read++;
+		}
+
+	}
   return ret;
 }
 
