@@ -2,7 +2,7 @@
 .syntax unified
 .type write, %function
 
-.equ WRITE_SWI,0x03
+.equ WRITE_SWI,0x02
 .align 2
 .section .text
 

@@ -12,6 +12,8 @@ enum {
 
 
 int put(char *ptr, int len);
+void putch(char ch);
+int int2ascii(int num, char*str);
 int get(char *ptr, int len);
 void ms_delay(unsigned int msec);
 void setup_timer();
