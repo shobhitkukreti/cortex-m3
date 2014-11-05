@@ -5,6 +5,7 @@
 .equ WRITE_SWI,0x02
 .equ READ_SWI,0x03
 .equ EXIT,0x01
+.equ SLEEP, 0x04
 .align 2
 .section .text
 
@@ -23,4 +24,11 @@ read:
 	SVC #READ_SWI
 	ldmfd sp!,{lr}
 	mov pc,lr
-	
+
+.global sleep
+.thumb_func
+sleep:
+	stmfd sp!,{lr}
+	SVC #SLEEP
+	ldmfd sp!,{lr}
+	mov pc,lr	

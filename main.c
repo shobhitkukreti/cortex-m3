@@ -15,7 +15,7 @@ char *tmp = "INPUT STR::\t";
 write(tmp,stringlen(tmp));
 len = read(str,255);
 write(str,len);
-ms_delay(1000);
+ms_delay(300);
 }
 }
 

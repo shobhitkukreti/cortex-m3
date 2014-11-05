@@ -91,8 +91,10 @@ B	.
 .thumb_func
 .weak SYSTick_Handler
 SysTick_Handler:
+CPSID i
 STMFD sp!,{lr} @ Save EXC_Return Value before branching to return from exception
 BL SYSTICK 
 LDMFD sp!,{lr}
+CPSIE i
 mov PC,LR
 .end

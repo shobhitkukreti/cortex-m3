@@ -25,6 +25,9 @@ case 3: ret=get(data,len);
 		     */
 	break;
 
+case 4: ms_delay((unsigned int) data);
+	break;
+
 default: ret=-1;
 }
 return ret;
