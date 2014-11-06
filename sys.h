@@ -1,6 +1,9 @@
 #ifndef SYS_H_
 #define SYS_H_
 
+#include "sched.h"
+
+
 enum {
   UART_FR_RXFE = 0x10,
   UART_FR_TXFF = 0x20,
