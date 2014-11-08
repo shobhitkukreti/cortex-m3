@@ -6,6 +6,8 @@
 .equ READ_SWI,0x03
 .equ EXIT,0x01
 .equ SLEEP, 0x04
+.equ TASK_CREATE, 0x1F
+
 .align 2
 .section .text
 
@@ -31,4 +33,11 @@ sleep:
 	stmfd sp!,{lr}
 	SVC #SLEEP
 	ldmfd sp!,{lr}
-	mov pc,lr	
+	mov pc,lr
+
+.global create_task
+.thumb_func
+
+create_task:
+	SVC #TASK_CREATE
+	

@@ -68,10 +68,12 @@ SVC_Handler:
 mov r0,sp
 push {lr}
 CPSID i
+
+// Extract SVC Immediate value
+
 ldr r1,[sp,#28]
 ldrb r1,[r1,#-2]
-BL SVC_WRITE
-//ldm sp!,{lr}
+BL C_SVC_Hndlr
 pop {lr}
 CPSIE i
 MOV PC,LR

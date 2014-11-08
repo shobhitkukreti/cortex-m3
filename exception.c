@@ -1,19 +1,23 @@
 #include "sys.h"
 #include <stdarg.h>
+
+
 extern unsigned k_up_time;
 extern void setup_timer();
+
 void SYSTICK()
 {
 k_up_time++;
 }
 
 
-int SVC_WRITE(int *ptr, int svc_num)
+int C_SVC_Hndlr(void *ptr, int svc_num)
 {
 int ret=0,len=0;
-char *data= (char*)*(ptr);
-len= *(ptr+1);
-//putch(48+len);
+void *stck_loc = ptr;
+
+char *data= (char*)*(stck_loc); // R0 on stack
+len= *(stck_loc+1); // R1 on stack
 
 switch(svc_num) {
 case 2: put(data,len);break;
@@ -25,7 +29,10 @@ case 3: ret=get(data,len);
 		     */
 	break;
 
-case 4: ms_delay((unsigned int) data);
+case 4: ms_delay(*data); // msdelay. Will cause problem since SYStick is not premepted by SVC and msdelay will never work for the time being.
+	break;
+
+case 31: task_create(stck_loc);
 	break;
 
 default: ret=-1;
