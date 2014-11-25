@@ -1,0 +1,105 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define NUM_CARD 52
+#define SET 13
+
+void init(int *deck,int *op, int len);
+void shuffle(int *deck,int *op,int len);
+void print_deck(int *deck,int len);
+void print_array(int *deck, int len);
+void arr_copy(int *deck, int *op, int len);
+void sequence_check(int *deck, int *op,int len);
+
+
+const char suit[4][2]={ "S" , "H" , "D" , "C"};
+const char rank[13][6]={"2","3","4","5","6","7","8","9","10","J","Q","K","A"};
+  
+
+void main()
+{
+int i=0;  
+int deck[NUM_CARD];
+int op[NUM_CARD];
+ 
+  srand(time(NULL));
+  init(deck,op,NUM_CARD );
+ // print_deck(deck,NUM_CARD );
+  print_array(deck,NUM_CARD);
+  //shuffle(deck,op,NUM_CARD) ;
+ // print_deck(deck,NUM_CARD) ;
+  sequence_check(deck,op,NUM_CARD);
+  print_array(op,NUM_CARD);
+
+
+}
+
+void init(int *deck,int *op, int len) {
+  int i=0;
+  for(i=0;i<len;i ++) {
+  	deck[i] = i ;
+  	op[i]=-1;
+  }
+}
+
+void shuffle(int *deck,int *op, int len) {
+
+  int i=0,j=0,tmp;
+arr_copy(deck,op,len);
+
+// for each element op[i], exchange with random op[j] 
+  for(i=0;i<len;i++)
+  {
+    j = rand() %len;
+    tmp = op[i];    
+    op[i]=op[j];
+    op[j]=tmp;
+
+  }
+
+}
+
+void arr_copy(int *deck, int *op, int len) {
+  int i=0;
+  for(i=0;i<len;i++) 
+  op[i]=deck[i];
+
+}
+
+
+void print_array(int *deck, int len) {
+  int i=0;
+  for(i=0;i<len;i++)
+	printf("%d ",deck[i]);
+  printf("\n");
+
+}
+
+void print_deck(int *deck ,int len){
+  int i=0;
+  for( i=0; i<len;i++)
+  	printf("%s %s,\t",rank[i%SET],suit[i/SET]);
+  printf("\n");
+}
+
+void sequence_check(int *deck, int *op, int len) {
+  int i=0,j=0,flag=0;
+ 
+  while(!flag) {
+  printf("Shuffle\n");
+  shuffle(deck,op,len);
+	flag=1; // Shuffled
+   
+   // Do the sequence check
+   for(i=0;i<len;i++) {
+	if(flag==0)
+           break;
+	for(j=0;j<len;j++) {
+	if((deck[i]==op[j]) && (deck[i+1]==op[j+1])) {
+		flag=0; break;
+	}
+	}
+}
+}
+}	
