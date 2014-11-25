@@ -26,6 +26,9 @@ wrapper.o:wrapper.S
 startup.o:startup.S
 	$(CC) -c startup.S
 
+sched.o:sched.c runqueue.c context_switch.c
+	$(CC) -c sched.c runqueue.c context_switch.c
+
 test:startup.o main.o sys.o kernel.o wrapper.o
 	$(LD) startup.o kernel.o exception.o wrapper.o sys.o main.o -o main
 

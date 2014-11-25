@@ -20,11 +20,7 @@ for(i=0;i<numOftask;i++)
 task[i] = *(r0+i);
 }
 
-	for (n=0;n<numOftask;n++){
-		create_priority_table(task[i].priority);
-	}
 	allocate_task(&task,numOftask);
-
 	dispatch_init();
 }
 
@@ -61,7 +57,7 @@ void dispatch_init()
                 tcb[IDLE_PRIO].T = 1;
                 tcb[IDLE_PRIO].e = 0;
                 tcb[IDLE_PRIO].t = 0;
-                tcb[IDLE_PRIO].sched_context.lr= &idle_task
+                tcb[IDLE_PRIO].sched_context.lr= &idle_task;
                 tcb[IDLE_PRIO].sched_context.sp=KSTACK; // Will not be used
                 tcb[IDLE_PRIO].sched_context.r4=0;
                 tcb[IDLE_PRIO].sched_context.r5=0;
@@ -73,7 +69,7 @@ void dispatch_init()
                 tcb[IDLE_PRIO].sched_context.r11=0;
 		create_priority_table(IDLE_PRIO); // Set up idle task
 
-		cur_tcb = tcb[IDLE_PRIO];	
+		cur_tcb = &tcb[IDLE_PRIO];	
 		context_switch_half(&idle_task);
 
 
@@ -83,8 +79,15 @@ void dispatch_init()
 void dispatch()
 {
 
-TCB *tcb;
+uint8_t prio = next_highest_prio();
+TCB *prev = get_cur_tcb();
+TCB *next = &OS_TCB[prio];
 
+if(prio<tcb->prio) {
+remove_run_queue(next,prio);
+context_switch_full(prev,next)
+
+}
 }
 
 
@@ -101,25 +104,27 @@ void disable_interrupts()
 
 void allocate_task(int *task, int num)
 {
-	TCB *tcb = OS_TCB;
+	TCB *tcb = &OS_TCB;
 
 	int i =0;
 	for(i=0;i<num;i++)
 	{
-		tcb[i].priority = task[i].priority;
-		tcb[i].C = task[i].C;
-		tcb[i].T = task[i].T;
-		tcb[i].e = 0;
-		tcb[i].t = 0;
-		tcb[i].sched_context.lr=task[i].func;
-		tcb[i].sched_context.sp=task[i].stack_ptr
-		tcb[i].sched_context.r4=0;
-		tcb[i].sched_context.r5=0;
-		tcb[i].sched_context.r6=0;
-		tcb[i].sched_context.r7=0;
-		tcb[i].sched_context.r8=0;
-		tcb[i].sched_context.r9=0;
-		tcb[i].sched_context.r10=0;
-		tcb[i].sched_context.r11=0;
+		pos = task[i].priority;
+		tcb[pos].priority = task[i].priority;
+		tcb[pos].C = task[i].C;
+		tcb[pos].T = task[i].T;
+		tcb[pos].e = 0;
+		tcb[pos].t = 0;
+		tcb[pos].sched_context.lr=task[i].func;
+		tcb[pos].sched_context.sp=task[i].stack_ptr
+		tcb[pos].sched_context.r4=0;
+		tcb[pos].sched_context.r5=0;
+		tcb[pos].sched_context.r6=0;
+		tcb[pos].sched_context.r7=0;
+		tcb[pos].sched_context.r8=0;
+		tcb[pos].sched_context.r9=0;
+		tcb[pos].sched_context.r10=0;
+		tcb[pos].sched_context.r11=0;
+		create_priority_table(&tcb[pos],tcb[pos].priority);
 	}
 }
