@@ -6,15 +6,16 @@
 
 #define TSTACK2 0x20006FFF
 
-/*
+
 void set2zero(char *ptr,int len);
-void main()
-{
+void main() {
+
 	while(1) {
 		int len = 0;
 		char str[255];
 		set2zero(str,255);
 		char *tmp = "INPUT STR::\t";
+		write ("Hello\n",7);
 		write(tmp,stringlen(tmp));
 		len = read(str,255);
 		write(str,len);
@@ -27,7 +28,8 @@ void set2zero(char *ptr, int len) {
 	for(i=0;i<len;i++)
 		ptr[i]='\0';
 }
-*/
+
+#if 0
 
 
 void task1()
@@ -67,3 +69,4 @@ while(1) {
 put("DEADBEAF\n",10);
 }
 }
+#endif

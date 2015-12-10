@@ -1,7 +1,10 @@
 #ifndef SYS_H_
 #define SYS_H_
 
+#ifdef KERNEL
 #include "sched.h"
+#endif
+
 #include "reg.h"
 
 

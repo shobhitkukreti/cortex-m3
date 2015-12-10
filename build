@@ -1,4 +1,4 @@
 arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -g -c main.c -o main.o
 arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -g -c startup.S -o startup.o
-arm-none-eabi-ld  -g -T linker.ld startup.o main.o -o main
+arm-none-eabi-gcc  -g -T linker.ld startup.o main.o -o main -specs=nosys.specs
 arm-none-eabi-objcopy -O binary main main.bin

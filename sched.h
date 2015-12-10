@@ -9,7 +9,7 @@
 #define IDLE_PRIO 63
 #define NULL '\0'
 
- volatile struct _reg_context {
+typedef volatile struct _reg_context {
 				unsigned int r4,r5,r6,r7,r8,r9,r10,r11,sp,lr;
 
 }CONTEXT;

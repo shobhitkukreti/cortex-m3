@@ -39,6 +39,7 @@ void putch(char ch)
 UART_DR(UART0_ADDR)=ch;
 }
 
+
 int put(char *ptr, int len) {
   int ret;
 
@@ -50,6 +51,8 @@ while(*ptr!='\0') {
 
   return ret;
 }
+
+
 
 
 void getch(char ch)
