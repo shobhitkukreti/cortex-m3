@@ -7,7 +7,7 @@ Implemented Startup Code, SVC Handler, SYSTICK Handler, Read/Write/Sleep System 
 
 Unfortunately, I have not implemented kernel context switch or schedule, but the skeleton framework is there. 
 
-Fixed some compilation issues in December 2015 which were escaped the compiler warnings/errors last year when I first started coding to explore ARM Cortex M3 devices.
+Fixed some compilation issues in December 2015 which had escaped the compiler warnings/errors last year when I first started coding to explore SW on ARM Cortex M3 devices.
 
 
 For GDB debugging:
