@@ -1,12 +1,11 @@
 #ifndef SYS_H_
 #define SYS_H_
 
-#ifdef KERNEL
-#include "sched.h"
-#endif
 
+#include "sched.h"
 #include "reg.h"
 
+extern 
 
 int stringlen(char *ptr);
 int put(char *ptr, int len);
@@ -19,6 +18,5 @@ void getch(char ch);
 
 void enable_interrupts();
 void disable_interrupts();
-
 
 #endif

@@ -29,8 +29,8 @@ startup.o:startup.S
 sched.o:sched.c runqueue.c context_switch.c
 	$(CC) -c sched.c runqueue.c context_switch.c
 
-test:startup.o main.o sys.o wrapper.o kernel.o
-	$(LD) startup.o exception.o wrapper.o kernel.o sys.o main.o -o main -specs=nosys.specs
+test:startup.o main.o sys.o wrapper.o kernel.o sched.o
+	$(LD) sched.o sys.o exception.o startup.o wrapper.o kernel.o main.o -o main -specs=nosys.specs
 
 clean: 
 	rm -rf *o main *bin

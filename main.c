@@ -1,12 +1,10 @@
 #include "sys.h"
 #include <string.h>
+#include "sched.h"
 
 
 #define TSTACK1 0x20007FFF
-
 #define TSTACK2 0x20006FFF
-
-
 void set2zero(char *ptr,int len);
 void main() {
 
@@ -15,11 +13,11 @@ void main() {
 		char str[255];
 		set2zero(str,255);
 		char *tmp = "INPUT STR::\t";
-		write ("Hello\n",7);
+//		write ("Hello\n\n\0",7);
 		write(tmp,stringlen(tmp));
 		len = read(str,255);
 		write(str,len);
-		ms_delay(300);
+	//	ms_delay(300);
 	}
 }
 
@@ -29,7 +27,7 @@ void set2zero(char *ptr, int len) {
 		ptr[i]='\0';
 }
 
-#if 0
+
 
 
 void task1()
@@ -46,27 +44,24 @@ putch('0');
 }
 
 
-void main()
+void notmain()
 {
 TASK_STRUCT task[2];
 task[0].priority=3;
 task[0].func = &task1;
 task[0].C=1;
 task[0].T=10;
-task[0].stack_ptr = (void *) TSTACK1;
-
 task[1].priority=5;
 task[1].func = &task2;
 task[1].C=2;
 task[1].T=10;
-task[1].stack_ptr=(void *) TSTACK2;
 
 create_task(&task,2);
 
 
 /* It should not print DEADBEEF*/
 while(1) {
-put("DEADBEAF\n",10);
+	put("DEADBEAF\n",10);
+	}
 }
-}
-#endif
+

@@ -1,3 +1,4 @@
+.align 2
 .thumb
 .syntax unified
 .section .isrvectors
@@ -18,9 +19,8 @@
  .word  PendSV_Handler+1              /* PendSV Handler               */
  .word  SysTick_Handler+1             /* SysTick Handler              */
 
-
+.extern RUNQ
 .section .text
-
 ;.global __cs3_reset
 .global Reset_Handler
 .thumb_func
@@ -76,8 +76,7 @@ ldrb r1,[r1,#-2]
 BL C_SVC_Hndlr
 pop {lr}
 CPSIE i
-MOV PC,LR
-
+BX LR
 
 .thumb_func
 .weak DebugMon_Handler
@@ -94,9 +93,19 @@ B	.
 .weak SYSTick_Handler
 SysTick_Handler:
 CPSID i
-STMFD sp!,{lr} @ Save EXC_Return Value before branching to return from exception
+STMFD SP!, {R4-R11}
+LDR R0,=RUNQ
+LDR R1, [R0]
+STR SP, [R1]
+PUSH {R0, LR} ; 
+
+@STMFD sp!,{lr} @ Save EXC_Return Value before branching to return from exception
+
 BL SYSTICK 
-LDMFD sp!,{lr}
+POP {R0, LR}
+LDR R1, [R0]
+LDR SP, [R1]
+POP {R4-R11}
 CPSIE i
-mov PC,LR
+BX LR
 .end

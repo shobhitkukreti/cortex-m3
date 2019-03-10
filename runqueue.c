@@ -1,5 +1,7 @@
 #include "sys.h"
 
+unsigned char table[8]={0,0,0,0,0,0,0,0};
+unsigned char run_bit=0;
 
 void runlist_init()
 {
@@ -36,9 +38,6 @@ void runqueue_remove(TCB *tcb, uint8_t priority,uint8_t list_id) {
 		sleep_list[priority]=tcb;
 
 }
-
-
-
 
 
 /* Needs Better implementation */

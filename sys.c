@@ -42,22 +42,19 @@ UART_DR(UART0_ADDR)=ch;
 
 int put(char *ptr, int len) {
   int ret;
-
-while(*ptr!='\0') {
-    UART_DR(UART0_ADDR) = *ptr;
-	ptr++;
-	ret++; 
- } 
-
-  return ret;
+	while(*ptr!='\0') {
+	    UART_DR(UART0_ADDR) = *ptr;
+		ptr++;
+		ret++; 
+	} 
+return ret;
 }
 
 
 
 
-void getch(char ch)
-{
-ch = UART_DR(UART0_ADDR);
+void getch(char ch){
+	ch = UART_DR(UART0_ADDR);
 }
 
 int get(char *read, int len) {
@@ -71,7 +68,7 @@ int get(char *read, int len) {
 			*read = UART_DR(UART0_ADDR);
 			ret++;
 			putch(*read);
-			if(*read=='\r') {
+			if(*read=='\r' || *read=='\n') {
 				read++;
 				ret++;
 				*read='\n';

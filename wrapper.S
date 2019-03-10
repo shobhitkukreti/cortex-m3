@@ -15,7 +15,9 @@
 .thumb_func
 write:
 	stmfd sp!,{lr} @ Caller Saved Registers
+	push {r4-r11}
 	svc #WRITE_SWI
+	pop {r4-r11}
 	ldmfd sp!,{lr}
 	mov pc,lr
 
@@ -23,7 +25,9 @@ write:
 .thumb_func
 read:
 	stmfd sp!,{lr}
+	push {r4-r11}
 	SVC #READ_SWI
+	pop {r4-r11}
 	ldmfd sp!,{lr}
 	mov pc,lr
 
@@ -38,6 +42,6 @@ sleep:
 .global create_task
 .thumb_func
 
-create_task:
+create_task: @r0-r3 are saved automatically. 
 	SVC #TASK_CREATE
 	
