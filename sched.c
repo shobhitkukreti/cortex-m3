@@ -27,28 +27,21 @@ int task_create(void *setup_ptr)
 	//TASK_STRUCT task;
 	TCB *TCBList = &OS_TCB[0];
 	
-//	for(i=0;i<numOftask;i++)
+	for(i=0;i<numOftask;i++)
 	{
-	SetInitialStack(0);
+	SetInitialStack(i);
 	// save func value in both PC and LR Registers Initially
-	STACK[0][STACK_SIZE-2] = (int32_t)((task[0].func));
-	STACK[0][STACK_SIZE-3] = (int32_t)((task[0].func));
-	TCBList[0].priority = task[0].priority;
-	TCBList[0].C = task[0].C;
-	TCBList[0].T = task[0].T;
-	TCBList[0].next = &TCBList[1];
-	SetInitialStack(1);
-	// save func value in both PC and LR Registers
-	STACK[1][STACK_SIZE-2] = (int32_t)((task[1].func));
-	STACK[1][STACK_SIZE-3] = (int32_t)((task[1].func));
-
-	TCBList[1].priority = task[1].priority;
-	TCBList[1].C = task[1].C;
-	TCBList[1].T = task[1].T;
-	TCBList[1].next = &TCBList[0];
-		
+	STACK[i][STACK_SIZE-2] = (int32_t)((task[i].func));
+	STACK[i][STACK_SIZE-3] = (int32_t)((task[i].func));
+	TCBList[i].priority = task[i].priority;
+	TCBList[i].C = task[i].C;
+	TCBList[i].T = task[i].T;
+	TCBList[i].next = &TCBList[i+1];		
 	}
 	RUNQ= &TCBList[0];
+	// make run queue circular by going to last 
+	// valid task block and setting next to RUNQ
+	TCBList[i-1].next = RUNQ; 
 
 	/*
 		allocate_task(&task,numOftask);
