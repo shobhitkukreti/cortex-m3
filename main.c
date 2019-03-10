@@ -6,18 +6,19 @@
 #define TSTACK1 0x20007FFF
 #define TSTACK2 0x20006FFF
 void set2zero(char *ptr,int len);
-void main() {
+
+void notmain() {
 
 	while(1) {
 		int len = 0;
 		char str[255];
 		set2zero(str,255);
 		char *tmp = "INPUT STR::\t";
-//		write ("Hello\n\n\0",7);
+		write ("Hello\n\n\0",7);
 		write(tmp,stringlen(tmp));
 		len = read(str,255);
 		write(str,len);
-	//	ms_delay(300);
+		ms_delay(300);
 	}
 }
 
@@ -33,19 +34,20 @@ void set2zero(char *ptr, int len) {
 void task1()
 {
 while(1)
-putch('a');
+	write ("A ",2);
 }
 
 
 void task2()
 {
 while(1)
-putch('0');
+	write ("B ",2);
 }
 
 
-void notmain()
+void main()
 {
+write ("Hello RTOS\n\0",14);
 TASK_STRUCT task[2];
 task[0].priority=3;
 task[0].func = &task1;
@@ -57,11 +59,12 @@ task[1].C=2;
 task[1].T=10;
 
 create_task(&task,2);
+StartOS();
 
 
 /* It should not print DEADBEEF*/
 while(1) {
-	put("DEADBEAF\n",10);
+	write ("DEADBEEF\0",10);
 	}
 }
 

@@ -7,7 +7,6 @@ unsigned int k_up_time=0;
 // Setup Timer and start user application
 int c_entry() {
 	SVC_PRIO(0x06);
-//	setup_timer();
 	main();
 	return 0;
 }

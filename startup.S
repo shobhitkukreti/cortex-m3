@@ -19,7 +19,7 @@
  .word  PendSV_Handler+1              /* PendSV Handler               */
  .word  SysTick_Handler+1             /* SysTick Handler              */
 
-.extern RUNQ
+
 .section .text
 ;.global __cs3_reset
 .global Reset_Handler
@@ -97,7 +97,7 @@ STMFD SP!, {R4-R11}
 LDR R0,=RUNQ
 LDR R1, [R0]
 STR SP, [R1]
-PUSH {R0, LR} ; 
+PUSH {R0, LR}
 
 @STMFD sp!,{lr} @ Save EXC_Return Value before branching to return from exception
 
@@ -108,4 +108,20 @@ LDR SP, [R1]
 POP {R4-R11}
 CPSIE i
 BX LR
+
+.global StartOS
+.extern RUNQ
+.thumb_func
+StartOS:
+LDR R0,=RUNQ;
+LDR R2, [R0]
+LDR SP, [R2];
+POP {R4-R11}
+POP {R0-R3}
+ADD SP, SP,#4
+POP {LR}
+ADD SP,SP,#4
+CPSIE I
+BX LR
+
 .end

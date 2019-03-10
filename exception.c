@@ -40,6 +40,7 @@ int C_SVC_Hndlr(void *ptr, int svc_num){
 
 
 		case 31: task_create((void*)stck_loc);
+				setup_timer();
 			break;
 
 		default: ret=-1;
