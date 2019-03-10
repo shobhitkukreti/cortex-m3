@@ -44,6 +44,7 @@ sleep:
 .global create_task
 .thumb_func
 create_task: @r0-r3 are saved automatically. 
+	stmfd sp!,{lr}
 	push {r4-r11}
 	SVC #TASK_CREATE
 	pop {r4-r11}

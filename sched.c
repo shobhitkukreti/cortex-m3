@@ -1,11 +1,23 @@
 #include "sys.h"
 #include "reg.h"
 
+/*********
+*** Stack View During Interrupt ***
+
+SP+1C PSR
+SP+18 PC
+SP+14 LR
+SP+10 R12
+SP+C R3
+SP+8 R2
+SP+4 R1
+SP   R0 -- > Stack Pointer Location
+**********/
+
 
 // Kernel TCB
 
-TCB *RUNQ=&OS_TCB[0];
-
+volatile TCB *RUNQ;
 int task_create(void *setup_ptr)
 {
 	int32_t i=0,n=0;
@@ -18,20 +30,25 @@ int task_create(void *setup_ptr)
 //	for(i=0;i<numOftask;i++)
 	{
 	SetInitialStack(0);
+	// save func value in both PC and LR Registers Initially
 	STACK[0][STACK_SIZE-2] = (int32_t)((task[0].func));
+	STACK[0][STACK_SIZE-3] = (int32_t)((task[0].func));
 	TCBList[0].priority = task[0].priority;
 	TCBList[0].C = task[0].C;
 	TCBList[0].T = task[0].T;
 	TCBList[0].next = &TCBList[1];
 	SetInitialStack(1);
+	// save func value in both PC and LR Registers
 	STACK[1][STACK_SIZE-2] = (int32_t)((task[1].func));
+	STACK[1][STACK_SIZE-3] = (int32_t)((task[1].func));
+
 	TCBList[1].priority = task[1].priority;
 	TCBList[1].C = task[1].C;
 	TCBList[1].T = task[1].T;
 	TCBList[1].next = &TCBList[0];
 		
 	}
-	
+	RUNQ= &TCBList[0];
 
 	/*
 		allocate_task(&task,numOftask);
@@ -50,18 +67,15 @@ void create_priority_table(unsigned int priority)
 }
 */
 
-void SetInitialStack(uint8_t threadID){
-	int i = threadID;
+// i = threadID
+void SetInitialStack(uint8_t i){
 	TCB *TCBList = &OS_TCB[0];
-	TCBList[i].sp = (int32_t*)(STACK[i][STACK_SIZE-16]);
-	asm("nop");
-	int stackp = (int32_t)TCBList[i].sp;
-	asm("nop");
-	STACK[i][STACK_SIZE-1] = 0x1; // thumb bit
+	TCBList[i].sp = (int32_t*)&(STACK[i][STACK_SIZE-16]);
+	STACK[i][STACK_SIZE-1] = 0x01000000; // set thumb bit xpsr
 	// r15 is program counter and is loaded with PC
 	
 	//Caller Saved
-	STACK[i][STACK_SIZE-3] = 0x3; // r14 
+	//STACK[i][STACK_SIZE-3] = 0x3; // r14 //link register
 	STACK[i][STACK_SIZE-4] = 0x4; // r12
 	STACK[i][STACK_SIZE-5] = 0x5; // r3
 	STACK[i][STACK_SIZE-6] = 0x6; // r2 
