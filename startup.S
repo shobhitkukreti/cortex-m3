@@ -64,13 +64,17 @@ B	.
 .thumb_func:
 .weak SVC_Handler
 SVC_Handler:
-//stm sp!,{lr} @ The LR will have value of 0XFFFFFFF. This is exc_return value. Save it before branching to SVC_WRITE
+//stm sp!,{lr} 
+
+@ The LR will have value of 0XFFFFFFF. 
+@This is exc_return value. 
+@Save it before branching to SVC_WRITE
+
 mov r0,sp
 push {lr}
 CPSID i
 
 // Extract SVC Immediate value
-
 ldr r1,[sp,#28]
 ldrb r1,[r1,#-2]
 BL C_SVC_Hndlr
@@ -99,7 +103,8 @@ LDR R1, [R0]
 STR SP, [R1]
 PUSH {R0, LR}
 
-@STMFD sp!,{lr} @ Save EXC_Return Value before branching to return from exception
+@STMFD sp!,{lr} 
+@Save EXC_Return Value before branching to return from exception
 
 BL SYSTICK 
 POP {R0, LR}

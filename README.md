@@ -18,13 +18,13 @@ Registers Saved in Stack When an Exception occurs
 
 **Stack View During Interrupt**
 
-SP+1C PSR
-SP+18 PC
-SP+14 LR
-SP+10 R12
-SP+C R3
-SP+8 R2
-SP+4 R1
+SP+1C PSR<br>
+SP+18 PC<br>
+SP+14 LR<br>
+SP+10 R12<br>
+SP+C R3<br>
+SP+8 R2<br>
+SP+4 R1<br>
 SP   R0 -- > **Stack Pointer Location**
 
 Further Work : Adding more scheduling policies. adding locks, etc. 

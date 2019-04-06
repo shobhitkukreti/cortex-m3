@@ -64,35 +64,3 @@ int get(char *read, int len) {
   }
   return ret;
 }
-
-/*
-void print(char *fmt,...)
-{
-        char num[256],len=0;
-        va_list args;
-        va_start(args,fmt);
-        while(fmt!=NULL) {
-                if(*fmt!='%'){
-                        putc(*fmt);
-                }
-                else{
-                        fmt++;
-                        switch(*fmt) {
-
-                                case 'd': len = int2ascii(va_arg(args,int),num);
-                                          put(num,len); break;
-
-                                case 'c': putc(va_arg(args,char)); break;
-                                case 's':
-put(va_arg(args,char*),strlen(va_arg(args,char *))); break;
-
-
-                        }
-
-                }
-
-
-        }
-        va_end(args);
-}
-*/

@@ -25,6 +25,7 @@ void set2zero(char *ptr, int len) {
   for (i = 0; i < len; i++) ptr[i] = '\0';
 }
 
+// Sample Tasks
 void task1() {
   while (1) write("A ", 2);
 }
@@ -57,9 +58,9 @@ void main() {
   task[2].T = 20;
 
   create_task(&task, 3);
-  StartOS();
+  StartOS(); 
 
-  /* It should not print DEADBEEF*/
+  /* It should never print DEADBEEF*/
   while (1) {
     write("DEADBEEF\0", 10);
   }
